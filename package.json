@@ -1,0 +1,19 @@
+{
+  "name": "simple-socialnet",
+  "version": "1.0.0",
+  "description": "A sample project that demonstrates building a simple social network using MERN stack",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dotslashbin/simple-socialnet.git"
+  },
+  "author": "Joshua <joshuarpf@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dotslashbin/simple-socialnet/issues"
+  },
+  "homepage": "https://github.com/dotslashbin/simple-socialnet#readme"
+}
