@@ -4,8 +4,8 @@
   "description": "A sample project that demonstrates building a simple social network using MERN stack",
   "main": "server.js",
   "scripts": {
-    "start":"node server.js", 
-    "server": "nodemon server.js"
+    "start": "node server.js",
+    "server": "npx nodemon server.js"
   },
   "repository": {
     "type": "git",
