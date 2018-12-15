@@ -1,7 +1,16 @@
+/////////////
+// modules //
+/////////////
 const express 		= require('express');
 const router 		= express.Router();
 const gravatar 		= require('gravatar')
 const bcrypt 		= require('bcrypt')
+const jwt 			= require('jsonwebtoken')
+
+//////////////////////
+// Access to others //
+//////////////////////
+const keys 			= require('../../config/keys')
 
 ////////////
 // Models //
@@ -43,12 +52,12 @@ router.post('/register', (requests, response) => {
 			///////////////////////////////////////////////////////////////////
 			// Encrypts the user's password before actually saving the data  //
 			///////////////////////////////////////////////////////////////////
-			bcrypt.genSalt(10, (err, salt) => {
-				bcrypt.hash(newUser.password, salt, (err, hash) => {
+			bcrypt.genSalt(10, (error, salt) => {
+				bcrypt.hash(newUser.password, salt, (error, hash) => {
 					newUser.password = hash
 					newUser.save()
 					.then(user => response.json(user))
-					.catch(err => console.log(err))
+					.catch(error => console.log(error))
 				})
 			})
 		}
@@ -79,7 +88,7 @@ router.post('/register', (requests, response) => {
  		// checks if the email exists //
 		////////////////////////////////
  		if(!user) {
- 			return response.status(404).json({ email: 'User / Email does not exists' })
+ 			return response.status(404).json({ email: 'User / Email not found'})
  		}
 
 		//////////////////////////////////////////////////////////
@@ -87,7 +96,23 @@ router.post('/register', (requests, response) => {
 		//////////////////////////////////////////////////////////
  		bcrypt.compare(password, user.password).then((isMatched) => {
  			if(isMatched) {
- 				return response.json({ message: 'Success'} )
+ 				// return response.json({ message: 'Success'} )
+ 				// 
+ 				/**
+				 * The user has matched, so you will need to create a jwt payload and sign a token
+				 */
+				
+				//////////////////////////
+				// Creating the payload //
+				//////////////////////////
+				const payload = { id: user.id, name: user.name, avatar: user.avatar }
+				
+				///////////////////////
+				// Signing the token //
+				///////////////////////
+				jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (error, token) => {
+					response.json({ success:true, token: 'Bearer ' + token})
+				}) 
  			} else {
  				return response.status(400).json({ password: 'Password incorrect' })
  			}
