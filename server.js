@@ -26,7 +26,7 @@ mongoose.connect(db).then(() => console.log('Mongodb database connected')).catch
  const port 	= process.env.PORT || 5000
 
 // Default
-app.get('/', (req, res) => res.send('Hello from e .. additional testing'))
+app.get('/', (requests, response) => response.send('Hello from e .. additional testing'))
 
 // Routes
 // app.use('/api/users', users)
