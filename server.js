@@ -29,7 +29,7 @@ mongoose.connect(db).then(() => console.log('Mongodb database connected')).catch
 app.get('/', (requests, response) => response.send('Hello from e .. additional testing'))
 
 // Routes
-// app.use('/api/users', users)
+app.use('/api/users', users)
 // app.use('/api/profile', profile)
 // app.use('/api/posts', posts)
 
