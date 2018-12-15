@@ -1,3 +1,11 @@
 module.exports = {
-  mongoURI: 'mongodb://nodeapp:pass1234@localhost:27017/appdb'
+	////////////////////////////
+	// MongoDB Authentication //
+	////////////////////////////
+	mongoURI: 'mongodb://nodeapp:pass1234@localhost:27017/appdb', 
+
+	//////////////////////
+	// JWT Token secret //
+	//////////////////////
+	secretOrKey: 'joshua'
 };
