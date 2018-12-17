@@ -6,6 +6,7 @@ const router 		= express.Router();
 const gravatar 		= require('gravatar')
 const bcrypt 		= require('bcrypt')
 const jwt 			= require('jsonwebtoken')
+const passport 		= require('passport')
 
 //////////////////////
 // Access to others //
@@ -120,5 +121,21 @@ router.post('/register', (requests, response) => {
 
  	})
  })
+
+/**
+ * Get method to return teh current user 
+ * @param  {[type]} '/current'                   [description]
+ * @param  {[type]} passport.authenticate('jwt', {            session:false}) [description]
+ * @param  {[type]} (request,                    response      [description]
+ * @return {[type]}                              [description]
+ */
+router.get('/current', passport.authenticate('jwt', { session:false }), (request, response) => {
+	// response.json({ message:'Success' })
+	// response.json(request.user)
+	/////////////////////////
+	// Cleanup the results //
+	/////////////////////////
+	response.json({ id: request.user.id, name: request.user.name, email: request.user.email })
+})
 
 module.exports = router
