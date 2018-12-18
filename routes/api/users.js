@@ -8,6 +8,11 @@ const bcrypt 		= require('bcrypt')
 const jwt 			= require('jsonwebtoken')
 const passport 		= require('passport')
 
+///////////////////////////
+// Load input validation //
+///////////////////////////
+const validateRegisterInput 	= require('../../validation/register.js')
+
 //////////////////////
 // Access to others //
 //////////////////////
@@ -26,6 +31,15 @@ router.get('/test', (requests, response) => response.send('from user file'))
  * @return {[type]}
  */
 router.post('/register', (requests, response) => {
+	const { errors, isValid } = validateRegisterInput(requests.body)
+
+	//////////////////////
+	// Check Validation //
+	//////////////////////
+	if(!isValid) {
+		return response.status(400).json({errors})
+	}
+
 	User.findOne({ email: requests.body.email })
 	.then((user) => {
 		if(user) {
