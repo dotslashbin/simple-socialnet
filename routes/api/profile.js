@@ -196,5 +196,10 @@ router.post('/', passport.authenticate('jwt', { session: false }), (request, res
     })
 })
 
+router.post('/experience', passport.authenticate('jwt', { sessio:false }), (request, response) => {
+    const { errors, isValid } = validateExperienceInput(request.body)
+
+})
+
 
 module.exports 		= router
