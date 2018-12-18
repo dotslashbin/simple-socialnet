@@ -61,6 +61,27 @@ router.get('/handle/:handle', (request, response) => {
 })
 
 /**
+ * Fetches user by id
+ * @param  {[type]} '/user/:user_id' [description]
+ * @param  {[type]} (request,        response      [description]
+ * @return {[type]}                  [description]
+ */
+router.get('/user/:user_id', (request, response) => {
+    const errors = {}
+
+    Profile.findOne({ user:request.params.user_id })
+    .then(profile => {
+        if(!profile) {
+            errors.nonprofile = 'There is no profile for this user'
+            response.status(404).json(errors)
+        }
+
+        response.json(profile)
+
+    }).catch(error => respons.status(404).json(error))
+})
+
+/**
  * create or edit user profile 
  * @param  {[type]} '/create-profile'            [description]
  * @param  {[type]} passport.authenticate('jwt', {            session:      false }) [description]
