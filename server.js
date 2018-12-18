@@ -55,10 +55,10 @@ app.get('/', (requests, response) => response.send('Hello from e .. additional t
 // Routes  //
 /////////////
 app.use('/api/users', users)
-// app.use('/api/profile', profile)
+app.use('/api/profile', profile)
 // app.use('/api/posts', posts)
 
-app.use('/api/users', users)
+
 
 ///////////////////////
 // Run's the server  //
