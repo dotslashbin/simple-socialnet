@@ -24,7 +24,9 @@ const User 			= require('../../models/User')
  */
 router.get('/', passport.authenticate('jwt', { session:false }), (request, response) => {
 	const errors = {}
-	Profile.findOne({ user: request.user.id }).then(profile => {
+	Profile.findOne({ user: request.user.id })
+    .populate('user', ['name', 'avatar'])
+    .then(profile => {
 		if(!profile) {
 			errors.noProfile = 'There is no profile for the user'
 			return response.status(404).json(errors)
@@ -35,7 +37,7 @@ router.get('/', passport.authenticate('jwt', { session:false }), (request, respo
 		response.status(404).json(error)
 	})
 })
-
+ 
 /**
  * Get Profile by handle
  * @param  {[type]} '/handle/:handle'            [description]
@@ -43,7 +45,9 @@ router.get('/', passport.authenticate('jwt', { session:false }), (request, respo
  * @return {[type]}                              [description]
  */
 router.get('/handle/:handle', (request, response) => {
-    Profile.findOne({ handle:request.params.handle }).then(profile => {
+    Profile.findOne({ handle:request.params.handle })
+    .populate('user', ['name', 'avatar'])
+    .then(profile => {
         response.json(profile)
     })
 })
@@ -96,13 +100,17 @@ router.post('/', passport.authenticate('jwt', { session: false }), (request, res
     	if(profile) {
 			// This means an update
 			console.log(profileFields)
-    		Profile.findOneAndUpdate({ user:request.user.id }, { $set: profileFields }, { new: true }).then(profile => {
+    		Profile.findOneAndUpdate({ user:request.user.id }, { $set: profileFields }, { new: true })
+            .populate('user', ['name', 'avatar'])
+            .then(profile => {
     			console.log("Profile updated ... ")
     			response.json(profile)
     		})
     	} else {
 
-            Profile.findOne({ hande:profileFields.handle }).then(profileFound => {
+            Profile.findOne({ hande:profileFields.handle })
+            .populate('user', ['name', 'avatar'])
+            .then(profileFound => {
                 if(profileFound) {
                     errors.handle = 'Profile already exists'
                     response.status(400).json(errors)
