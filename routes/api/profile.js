@@ -37,6 +37,18 @@ router.get('/', passport.authenticate('jwt', { session:false }), (request, respo
 })
 
 /**
+ * Get Profile by handle
+ * @param  {[type]} '/handle/:handle'            [description]
+ * @param  {[type]} (request,                    response      [description]
+ * @return {[type]}                              [description]
+ */
+router.get('/handle/:handle', (request, response) => {
+    Profile.findOne({ handle:request.params.handle }).then(profile => {
+        response.json(profile)
+    })
+})
+
+/**
  * create or edit user profile 
  * @param  {[type]} '/create-profile'            [description]
  * @param  {[type]} passport.authenticate('jwt', {            session:      false }) [description]
