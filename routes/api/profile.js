@@ -45,11 +45,19 @@ router.get('/', passport.authenticate('jwt', { session:false }), (request, respo
  * @return {[type]}                              [description]
  */
 router.get('/handle/:handle', (request, response) => {
+    const errors = {}
+
     Profile.findOne({ handle:request.params.handle })
     .populate('user', ['name', 'avatar'])
     .then(profile => {
+        if(!profile) {
+            errors.noprofile = 'There is no profile with that handle'
+            return response.status(404).json(errors)
+        }
+
         response.json(profile)
-    })
+    })                                                                                          
+    .catch(error => response.status(404).json(error))
 })
 
 /**
