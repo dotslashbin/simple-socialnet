@@ -37,7 +37,8 @@ router.post('/register', (requests, response) => {
 	// Check Validation //
 	//////////////////////
 	if(!isValid) {
-		return response.status(400).json({errors})
+		console.log('Validation failed ... ')
+		return response.status(400).json(errors)
 	}
 
 	User.findOne({ email: requests.body.email })
