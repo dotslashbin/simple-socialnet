@@ -37,6 +37,25 @@ router.get('/', passport.authenticate('jwt', { session:false }), (request, respo
 		response.status(404).json(error)
 	})
 })
+
+/**
+ * Returns all profiles
+ * @param  {[type]} '/all'    [description]
+ * @param  {[type]} (request, response      [description]
+ * @return {[type]}           [description]
+ */
+router.get('/all', (request, response) => {
+    const errors = {}
+
+    Profile.find().populate('user', ['name', 'avatar']).then(profiles => {
+        if(!profiles) {
+            errors.noprofile = 'There are no profiles'
+            return response.status(404).json(errors)
+        }
+
+        response.json(profiles)
+    }).catch(error => { response.status(404).json(error) })
+})
  
 /**
  * Get Profile by handle
@@ -70,6 +89,7 @@ router.get('/user/:user_id', (request, response) => {
     const errors = {}
 
     Profile.findOne({ user:request.params.user_id })
+    .populate('user', ['name', 'avatar'])
     .then(profile => {
         if(!profile) {
             errors.nonprofile = 'There is no profile for this user'
