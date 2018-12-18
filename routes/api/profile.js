@@ -6,6 +6,9 @@ const router 		= express.Router()
 const mongoose 		= require('mongoose')
 const passport 		= require('passport')
 
+// Load validation
+const validateProfileInput = require('../../validation/profile')
+
 /////////////
 // Models  //
 /////////////
@@ -40,7 +43,17 @@ router.get('/', passport.authenticate('jwt', { session:false }), (request, respo
  * @param  {[type]} (request,                    response      [description]
  * @return {[type]}                              [description]
  */
-router.post('/save', passport.authenticate('jwt', { session: false }), (request, response) => {
+router.post('/', passport.authenticate('jwt', { session: false }), (request, response) => {
+
+	const { errors, isValid } = validateProfileInput(request.body)
+
+	//////////////////////
+	// Check validation //
+	//////////////////////
+	if(!isValid) {
+		// return any errors
+		return response.status(400).json(errors)
+	}
 
 	// Get fields
     const profileFields 										= {};
@@ -67,23 +80,49 @@ router.post('/save', passport.authenticate('jwt', { session: false }), (request,
     if (request.body.instagram) profileFields.social.instagram 	= request.body.instagram;
 
     Profile.findOne({ user: request.user.id }).then(profile => {
-	    
-    	if(Profile) {
+
+    	if(profile) {
 			// This means an update
-    		Profile.findOneAndUpdate({ user:request.user.id }, { $set: profileFields }, { new: true }).then(profile => respond.json(profile))
+			console.log(profileFields)
+    		Profile.findOneAndUpdate({ user:request.user.id }, { $set: profileFields }, { new: true }).then(profile => {
+    			console.log("Profile updated ... ")
+    			response.json(profile)
+    		})
     	} else {
+
+            Profile.findOne({ hande:profileFields.handle }).then(profileFound => {
+                if(profileFound) {
+                    errors.handle = 'Profile already exists'
+                    response.status(400).json(errors)
+                } else {
+                    new Profile(profileFields).save().then(profile => response.json(profile)).catch(error => {
+                        console.log("ERROR IN CREATING A PROFILE ... ")
+                        response.status(404).json(error)
+                    })        
+                }
+            })
+
+            
     		// This means creating a new profile
     		
-    		// Check to see if the handle exists to avoid duplication
-    		Profile.findOne({ handle: profileFields.handle }).then(Profile => {
-    			if(profile) {
-    				errors.handle = 'Handle already existst'
-    				respond.status(400).json(errors)
-    			}
+    		// // Check to see if the handle exists to avoid duplication
+    		// Profile.findOne({ handle: profileFields.handle }).then(Profile => {
+    		// 	if(profile) {
+    		// 		errors.handle = 'Handle already existst'
+    		// 		respond.status(400).json(errors)
+    		// 	}
 
-    			// Save Profile 
-    			new Profile(profileFileds).save().then(savedProfile => respond.json(savedProfile))
-    		})
+      //           new Profile(profileFields).save().then(profile => response.json(profile)).catch(error => {
+      //               console.log("Error saving ... ")
+      //               response.json(error)
+      //           })
+
+    		// 	// Save Profile 
+    		// 	// new profile(profileFields).save().then(savedProfile => respond.json(savedProfile))
+    		// }).catch(error => {
+      //           console.log("error on find one ...")
+      //           response.status(404).json(error)
+      //       })
     	}
     })
 })
