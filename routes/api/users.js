@@ -12,6 +12,7 @@ const passport 		= require('passport')
 // Load input validation //
 ///////////////////////////
 const validateRegisterInput 	= require('../../validation/register.js')
+const validateLoginInput 		= require('../../validation/login.js')
 
 //////////////////////
 // Access to others //
@@ -93,7 +94,17 @@ router.post('/register', (requests, response) => {
  	const email 	= requests.body.email
  	const password 	= requests.body.password
 
- 	console.log(requests.body)
+ 	const { errors, isValid } = validateLoginInput(requests.body)
+
+	//////////////////////
+	// Check Validation //
+	//////////////////////
+	if(!isValid) {
+		console.log('Validation failed ... ')
+		return response.status(400).json(errors)
+	}
+
+ 	// console.log(requests.body)
 
 	//////////////////////////////////////////////////////////////
 	// Used ES6 shortcut since 'email' is the same as the value //
@@ -106,7 +117,9 @@ router.post('/register', (requests, response) => {
  		// checks if the email exists //
 		////////////////////////////////
  		if(!user) {
- 			return response.status(404).json({ email: 'User / Email not found'})
+ 			// return response.status(404).json({ email: 'User / Email not found'})
+ 			errors.email = 'User not found'
+ 			return response.status(400).json(errors)
  		}
 
 		//////////////////////////////////////////////////////////
@@ -132,7 +145,9 @@ router.post('/register', (requests, response) => {
 					response.json({ success:true, token: 'Bearer ' + token})
 				}) 
  			} else {
- 				return response.status(400).json({ password: 'Password incorrect' })
+ 				// return response.status(400).json({ password: 'Password incorrect' })
+ 				errors.password = 'Password incorrect'
+ 				return response.status(400).json(errors)
  			}
  		})
 
