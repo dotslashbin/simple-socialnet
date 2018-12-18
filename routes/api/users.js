@@ -43,7 +43,9 @@ router.post('/register', (requests, response) => {
 	User.findOne({ email: requests.body.email })
 	.then((user) => {
 		if(user) {
-			return response.status(400).json({ email: 'Email already exists'})
+			// return response.status(400).json({ email: 'Email already exists'})
+			errors.email = 'Email already exists'
+			return response.status(400).json(errors)
 		} else {
 			//////////////////////////////
 			// Fetches the gravatar url //
