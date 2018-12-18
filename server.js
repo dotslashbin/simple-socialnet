@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 /////////////////////////
 // Connect to mongodb  //
 /////////////////////////
-mongoose.connect(db).then(() => console.log('Mongodb database connected')).catch((err) => console.log(err))
+mongoose.connect(db,  { useNewUrlParser: true }).then(() => console.log('Mongodb database connected')).catch((err) => console.log(err))
 
 //////////////////////////
 // Passport middleware  //
