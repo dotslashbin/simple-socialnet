@@ -4,6 +4,8 @@
 /////////////////////////////
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import store from './store'
 
 //////////////////////////
 // Imported components  //
@@ -17,25 +19,29 @@ import Login from './components/auth/Login'
 
 import './App.css';
 
+
+
 class App extends Component {
   render() {
     return (
     	// This was renamed from above
-		<Router>
-			<div className="App">
-				<Navbar />
-			{/* commented to be replaced with route <Landing />*/}
-			{ /*You need the "exact" to load  only the exact component */ }
-			<Route exact path="/" component={ Landing } />
+    	<Provider store={ store }> 
+			<Router>
+				<div className="App">
+					<Navbar />
+				{/* commented to be replaced with route <Landing />*/}
+				{ /*You need the "exact" to load  only the exact component */ }
+				<Route exact path="/" component={ Landing } />
 
-			<div className="container">
-				<Route exact path="/Register" component={ Register }/>
-				<Route exact path="/Login" component={ Login }/>
-			</div>
+				<div className="container">
+					<Route exact path="/Register" component={ Register }/>
+					<Route exact path="/Login" component={ Login }/>
+				</div>
 
-			<Footer />
-			</div>
-		</Router>
+				<Footer />
+				</div>
+			</Router>
+		</Provider> 
     );
   }
 }
