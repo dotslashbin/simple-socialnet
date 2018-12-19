@@ -3,7 +3,7 @@
 //////////////////////////
 import React, { Component } from 'react'
 import axios from 'axios'
-
+import classnames from 'classnames'
 
 class Register extends Component {
 	constructor() {
@@ -75,11 +75,17 @@ class Register extends Component {
 		// Testing
 		axios.post('/api/users/register', newUser)
 			.then(response => console.log (response.data))
-			.catch(errors => this.setState({ errors: errors.response.data }))
+			.catch(errors => {
+				this.setState({ errors: errors.response.data })
+			})
+			// .catch(errors => console.log(errors.response.data))
 	
 	}
 
 	render() {
+
+		const { errors } = this.state
+
 		return(
 			<div className="register">
 			    <div className="container">
@@ -89,7 +95,8 @@ class Register extends Component {
 			          <p className="lead text-center">Create your DevConnector account</p>
 			          <form noValidate method='POST' onSubmit={this.onSubmit}>
 			            <div className="form-group">
-			              <input type="text" className="form-control form-control-lg" placeholder="Name" name="name" value={this.state.name} onChange={this.onChange} required />
+			              {/* orig: <input type="text" className="form-control form-control-lg" placeholder="Name" name="name" value={this.state.name} onChange={this.onChange} required />*/}
+			              <input type="text" className={classnames('form-control form-control-lg', {'is-invalid': errors.name})} placeholder="Name" name="name" value={this.state.name} onChange={this.onChange} required />
 			            </div>
 			            <div className="form-group">
 			              <input type="email" className="form-control form-control-lg" placeholder="Email Address" name="email" value={this.state.email} onChange={this.onChange}/>
