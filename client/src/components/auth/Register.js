@@ -1,4 +1,9 @@
+//////////////////////////
+// Imports from modules //
+//////////////////////////
 import React, { Component } from 'react'
+import axios from 'axios'
+
 
 class Register extends Component {
 	constructor() {
@@ -67,7 +72,10 @@ class Register extends Component {
 			password2: this.state.password2
 		}
 
-		console.log(newUser)
+		// Testing
+		axios.post('/api/users/register', newUser)
+			.then(response => console.log (response.data))
+			.catch(errors => this.setState({ errors: errors.response.data }))
 	
 	}
 
