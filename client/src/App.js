@@ -1,23 +1,36 @@
-// Components 
+
+/////////////////////////////
+// Imported react packages //
+/////////////////////////////
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
+//////////////////////////
+// Imported components  //
+//////////////////////////
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Landing from './components/layout/Landing'
 // import logo from './logo.svg';
-// 
 
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-      	<Navbar />
-        <Landing />
-        <Footer />
-      </div>
+    	// This was renamed from above
+		<Router>
+			<div className="App">
+				<Navbar />
+			{/* commented to be replaced with route <Landing />*/}
+			{ /*You need the "exact" to load  only the exact component */ }
+			<Route exact path="/" component={ Landing } />
+			<Footer />
+			</div>
+		</Router>
     );
   }
 }
 
 export default App;
+ 
