@@ -28,9 +28,9 @@ class App extends Component {
 			{ /*You need the "exact" to load  only the exact component */ }
 			<Route exact path="/" component={ Landing } />
 
-			<div className="container ">
-				<Route exact path="./register" component={ Register }/>
-				<Route exact path="./login" component={ Login }/>
+			<div className="container">
+				<Route exact path="/Register" component={ Register }/>
+				<Route exact path="/Login" component={ Login }/>
 			</div>
 
 			<Footer />
