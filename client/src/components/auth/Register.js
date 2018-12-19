@@ -3,7 +3,7 @@
 //////////////////////////
 import React, { Component } from 'react'
 import PropTypes from 'prop-types' 
-import axios from 'axios'
+// import axios from 'axios'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { registerUser } from '../../actions/authActions'
@@ -44,6 +44,12 @@ class Register extends Component {
 	 * @return {[type]}       [description]
 	 */
 	onChange = (event) => { this.setState({ [event.target.name]: event.target.value }); }
+
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.errors) {
+			this.setState({errors: nextProps.errors})
+		}
+	}
 
 	/**
 	 * Submitting the registration
@@ -94,11 +100,11 @@ class Register extends Component {
 
 		const { errors } = this.state
 
-		const { user } = this.props.auth
+		// const { user } = this.props.auth
 
 		return(
 			<div className="register">
-				{user ? user.name : null }
+				{/*{user ? user.name : null }*/}
 			    <div className="container">
 			      <div className="row">
 			        <div className="col-md-8 m-auto">
@@ -139,7 +145,8 @@ class Register extends Component {
  */
 Register.propTyeps = {
 	registerUser: PropTypes.func.isRequired, 
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired, 
+	errors: PropTypes.object.isRequired
 }
 
 /**
@@ -148,7 +155,8 @@ Register.propTyeps = {
  * @return {[type]}       [description]
  */
 const mapStateToProps = (state) => ({
-	auth: state.auth // This comes from authReducer
+	auth: state.auth, // This comes from authReducer
+	errors: state.errors
 })
 
 export default connect(mapStateToProps, { registerUser })(Register)

@@ -1,10 +1,6 @@
-// import { TEST_DISPATCH } from '../actions/types'
+import { GET_ERRORS } from '../actions/types'
 
-const initialState = {
-	isAuthenticated: false, 
-	user: {}, 
-	hello: 'hello test'
-}
+const initialState = {}
 
 export default function(state = initialState, action) {
 	switch(action.type) {
@@ -13,6 +9,8 @@ export default function(state = initialState, action) {
 		// 		...state, 
 		// 		user: action.payload // Inserts userData from authActions
 		// 	}
+		case GET_ERRORS: 
+			return action.payload
 		default: 
 			return state
 	}
