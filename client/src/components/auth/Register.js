@@ -15,6 +15,7 @@ class Register extends Component {
 		// Methods binding: Necessary to identify the 'this' from call //
 		/////////////////////////////////////////////////////////////////
 		this.onChange = this.onChange.bind(this)
+		this.onSubmit = this.onSubmit.bind(this)
 	}
 
 	/**
@@ -28,6 +29,26 @@ class Register extends Component {
 		this.setState({ [event.target.name]: event.target.value });
 	}
 
+	/**
+	 * Submitting the registration
+	 * @param  {[type]} event [description]
+	 * @return {[type]}       [description]
+	 */
+	onSubmit(event) {
+		event.preventDefault()
+
+		const newUser =  {
+			name: this.state.name,
+			email: this.state.email, 
+			password: this.state.password, 
+			password2: this.state.password2
+		}
+
+		alert(newUser)
+
+		console.log(newUser)
+	}
+
 	render() {
 		return(
 			<div className="register">
@@ -36,7 +57,7 @@ class Register extends Component {
 			        <div className="col-md-8 m-auto">
 			          <h1 className="display-4 text-center">Sign Up</h1>
 			          <p className="lead text-center">Create your DevConnector account</p>
-			          <form action="create-profile.html">
+			          <form noValidate method='POST' onSubmit={this.onSubmit}>
 			            <div className="form-group">
 			              <input type="text" className="form-control form-control-lg" placeholder="Name" name="name" value={this.state.name} onChange={this.onChange} required />
 			            </div>
@@ -50,7 +71,7 @@ class Register extends Component {
 			            <div className="form-group">
 			              <input type="password" className="form-control form-control-lg" placeholder="Confirm Password" name="password2" value={this.state.password2} onChange={this.onChange}/>
 			            </div>
-			            <input type="submit" className="btn btn-info btn-block mt-4" />
+			            <input type="submit" className="btn btn-info btn-block mt-4"/>
 			          </form>
 			        </div>
 			      </div> 
