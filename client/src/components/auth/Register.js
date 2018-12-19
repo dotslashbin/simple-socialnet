@@ -3,6 +3,7 @@
 //////////////////////////
 import React, { Component } from 'react'
 import PropTypes from 'prop-types' 
+import { withRouter } from 'react-router-dom'
 // import axios from 'axios'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
@@ -92,7 +93,12 @@ class Register extends Component {
 		// 	})
 			// .catch(errors => console.log(errors.response.data))
 	
-		this.props.registerUser(newUser)
+		// this.props.registerUser(newUser)
+
+		/**
+		 * Added history
+		 */
+		this.props.registerUser(newUser, this.props.history)
 	
 	}
 
@@ -159,4 +165,4 @@ const mapStateToProps = (state) => ({
 	errors: state.errors
 })
 
-export default connect(mapStateToProps, { registerUser })(Register)
+export default connect(mapStateToProps, { registerUser })(withRouter(Register))
