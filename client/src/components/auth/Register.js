@@ -2,8 +2,11 @@
 // Imports from modules //
 //////////////////////////
 import React, { Component } from 'react'
+import PropTypes from 'prop-types' 
 import axios from 'axios'
 import classnames from 'classnames'
+import { connect } from 'react-redux'
+import { registerUser } from '../../actions/authActions'
 
 class Register extends Component {
 	constructor() {
@@ -72,13 +75,18 @@ class Register extends Component {
 			password2: this.state.password2
 		}
 
+		/**
+		 * This was used before redux was implemented
+		 */
 		// Testing
-		axios.post('/api/users/register', newUser)
-			.then(response => console.log (response.data))
-			.catch(errors => {
-				this.setState({ errors: errors.response.data })
-			})
+		// axios.post('/api/users/register', newUser)
+		// 	.then(response => console.log (response.data))
+		// 	.catch(errors => {
+		// 		this.setState({ errors: errors.response.data })
+		// 	})
 			// .catch(errors => console.log(errors.response.data))
+	
+		this.props.registerUser(newUser)
 	
 	}
 
@@ -86,8 +94,11 @@ class Register extends Component {
 
 		const { errors } = this.state
 
+		const { user } = this.props.auth
+
 		return(
 			<div className="register">
+				{user ? user.name : null }
 			    <div className="container">
 			      <div className="row">
 			        <div className="col-md-8 m-auto">
@@ -122,4 +133,22 @@ class Register extends Component {
 	}
 }
 
-export default Register
+/**
+ * This is mapping all of prop types for good practice
+ * @type {Object}
+ */
+Register.propTyeps = {
+	registerUser: PropTypes.func.isRequired, 
+	auth: PropTypes.object.isRequired
+}
+
+/**
+ * This is so you can use this.props.<something from the state>
+ * @param  {[type]} state [description]
+ * @return {[type]}       [description]
+ */
+const mapStateToProps = (state) => ({
+	auth: state.auth // This comes from authReducer
+})
+
+export default connect(mapStateToProps, { registerUser })(Register)
