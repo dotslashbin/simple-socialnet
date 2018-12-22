@@ -22,12 +22,6 @@ class Login extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		/* Redirects to the dashboard*/ 
-		if(nextProps.auth.isAuthenicated ) {
-			this.props.history.push('/dashboard')
-		}
-
-		console.log("this got called")
 		if(nextProps.errors) {
 			this.setState({errors: nextProps.errors})
 		}
@@ -42,8 +36,6 @@ class Login extends Component {
 		}
 
 		this.props.loginUser(credentials)
-
-		// console.log(credentials)
 	}
 
 	render() {
@@ -83,9 +75,9 @@ Login.propTypes = {
 	errors: PropTypes.object.isRequired
 }
 
-// const mapStateToProperties = (state) = {
-// 	auth: state.auth, 
-// 	errors: state.errors
-// }
+const mapStateToProps = (state) => ({
+	auth: state.auth, // This comes from authReducer
+	errors: state.errors
+})
 
-export default connect(null, { loginUser })(Login)
+export default connect(mapStateToProps, { loginUser })(Login)
