@@ -40,7 +40,7 @@ export const registerUser = (userData, history) => dispatch => {
  * @param  {[type]} userData [description]
  * @return {[type]}          [description]
  */
-export const loginUser = (userData) => dispatch => {
+export const loginUser = (userData, history) => dispatch => {
 	axios
 		.post('/api/users/login', userData)
 		.then(result => {
