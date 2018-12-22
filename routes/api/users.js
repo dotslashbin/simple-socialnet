@@ -112,7 +112,7 @@ router.post('/register', (requests, response) => {
 	//////////////////////////////////////////////////////////////
  	User.findOne({email}).then((user) => {
 
-
+ 		console.log("Found User: " + user.id)
 
 		////////////////////////////////
  		// checks if the email exists //
@@ -143,8 +143,10 @@ router.post('/register', (requests, response) => {
 				// Signing the token //
 				///////////////////////
 				jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (error, token) => {
+					console.log("returning the shit")
 					response.json({ success:true, token: 'Bearer ' + token})
 				}) 
+
  			} else {
  				// return response.status(400).json({ password: 'Password incorrect' })
  				errors.password = 'Password incorrect'
