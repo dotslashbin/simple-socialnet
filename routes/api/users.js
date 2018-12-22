@@ -143,7 +143,7 @@ router.post('/register', (requests, response) => {
 				// Signing the token //
 				///////////////////////
 				jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (error, token) => {
-					console.log("returning the shit")
+					console.log("returning the token ...")
 					response.json({ success:true, token: 'Bearer ' + token})
 				}) 
 
