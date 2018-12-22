@@ -64,6 +64,22 @@ export const loginUser = (userData) => dispatch => {
 		)
 }
 
+/**
+ * Deletes the variables from localStorage which effectively 
+ * logs the user out
+ * @return {[type]} [description]
+ */
+export const logoutUser = () => dispatch => {
+	// Remove token from localStorage
+	localStorage.removeItem('jwtToken')
+
+	// Remove the auth header for future requests
+	setAuthToken(false)
+
+	// Set the current user to emtpy
+	dispatch(setCurrentUser({}))
+}
+
 export const setCurrentUser = (decoded) => {
 	return {
 		type: SET_CURRENT_USER, 
