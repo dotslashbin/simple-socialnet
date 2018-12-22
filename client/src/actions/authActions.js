@@ -49,17 +49,19 @@ export const loginUser = (userData) => dispatch => {
 			localStorage.setItem('jwtToken', token)
 
 			// Set token to auth header
-			setAuthToken(token)
+			// setAuthToken(token)
 
 			// Decode token to get user data
 			const decoded = jwt_decode(token)
 
 			dispatch(setCurrentUser(decoded))
 		})
-		.catch(errors => dispatch({
-			type: GET_ERRORS, 
-			payload: errors.response.data
-		}))
+		.catch(errors =>
+			dispatch({
+				type: GET_ERRORS, 
+				payload: errors.response.data
+			})
+		)
 }
 
 export const setCurrentUser = (decoded) => {
