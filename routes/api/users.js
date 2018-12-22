@@ -91,6 +91,7 @@ router.post('/register', (requests, response) => {
  */
  router.post('/login', (requests, response) => {
 
+ 	console.log(`Login attempt: ${requests.body.email} --> ${requests.body.password}`)
  	const email 	= requests.body.email
  	const password 	= requests.body.password
 
