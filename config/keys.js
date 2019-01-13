@@ -2,7 +2,7 @@ module.exports = {
 	////////////////////////////
 	// MongoDB Authentication //
 	////////////////////////////
-	mongoURI: 'mongodb://nodeapp:pass1234@localhost:27017/appdb', 
+	mongoURI: 'mongodb://dbuser:pass1234@localhost:27017/simplesocialdb', 
 
 	//////////////////////
 	// JWT Token secret //
