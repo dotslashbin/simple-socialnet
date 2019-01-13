@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux' 
 import { getCurrentProfile } from '../../actions/profileActions'
@@ -13,9 +14,25 @@ class Dashboard extends Component {
     	const { user } = this.props.auth
     	const { profile, loading } = this.props.profile
 
+    	let dashboardContent
+
+    	if( profile === null || loading ) {
+    		dashboardContent = <h4>LOADING ... </h4>
+    	} else {
+    		dashboardContent = (
+    			<div>
+    				<p className="lead text-muted">Welcome { user.name }</p>
+    				<p>Create a profile</p>
+    				<Link to="/create-profile" className="btn btn-lg btn-info">
+    				Create
+    				</Link>
+    			</div>
+			)
+    	}
+
     	return (
     		<div>
-    			The dashboardsuperfly
+    			{ dashboardContent }
     		</div>
 		)
     }
@@ -32,4 +49,4 @@ const mapStateToProps = state => ({
 	auth: state.auth
 })
 
-export default connect(null, { getCurrentProfile })(Dashboard)
+export default connect(mapStateToProps, { getCurrentProfile })(Dashboard)
